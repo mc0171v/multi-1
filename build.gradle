@@ -2,6 +2,9 @@
  // id 'net.researchgate.release' version '2.3.4'
 //}
 
+    def preReleaseVersion = "0.0.0"
+    def tagVersion = "0.0.0"
+
 buildscript {
     repositories {
         jcenter()
@@ -14,9 +17,6 @@ buildscript {
 allprojects {
     apply plugin: 'java'
     apply plugin: 'net.researchgate.release'
-
-    def preReleaseVersion = "0.0.0"
-    def tagVersion = "0.0.0"
 
     repositories {
         mavenCentral()
