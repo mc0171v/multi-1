@@ -15,6 +15,11 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'net.researchgate.release'
 
+    ext {
+      preReleaseVersion = "0.0.0"
+      tagVersion = "0.0.0"
+    }
+
     repositories {
         mavenCentral()
         jcenter()
@@ -29,12 +34,22 @@ allprojects {
         println 'starting build'
     }
 
-    task(printversion) << {
+    task(setTagVersion) << {
+      project.tagVersion = project.version
+    }
+
+    task(setPreReleaseVersion) << {
+      project.preReleaseVersion = project.version
+    }
+
+    task(printversions) << {
+        println "Project pre release version is " + project.preReleaseVersion
+        println "Project tag version is " + project.tagVersion
         println "Project version is " + project.version
     }
 
-    beforeReleaseBuild.dependsOn startmessage
-    unSnapshotVersion.dependsOn printversion
+    beforeReleaseBuild.dependsOn setPreReleaseVersion startmessage
+    unSnapshotVersion.dependsOn setTagVersion printversion
     commitNewVersion.dependsOn printversion
     afterReleaseBuild.dependsOn printversion
 }
