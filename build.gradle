@@ -43,11 +43,11 @@ allprojects {
     }
 
     task(printPreReleaseVersion) << {
-        println "Project tag version is " + project.tagVersion
+        println "Project pre release version is " + project.preReleaseVersion
     }
 
     task(printTagVersion) << {
-        println "Project pre release version is " + project.preReleaseVersion
+        println "Project tag version is " + project.tagVersion
     }
 
     task(printversion) << {
