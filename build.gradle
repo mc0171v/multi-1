@@ -42,14 +42,20 @@ allprojects {
       project.preReleaseVersion = project.version
     }
 
-    task(printversions) << {
-        println "Project pre release version is " + project.preReleaseVersion
+    task(printPreReleaseVersion) << {
         println "Project tag version is " + project.tagVersion
+    }
+
+    task(printTagVersion) << {
+        println "Project pre release version is " + project.preReleaseVersion
+    }
+
+    task(printversion) << {
         println "Project version is " + project.version
     }
 
-    beforeReleaseBuild.dependsOn setPreReleaseVersion,startmessage
-    unSnapshotVersion.dependsOn setTagVersion,printversions
-    commitNewVersion.dependsOn printversions
-    afterReleaseBuild.dependsOn printversions
+    beforeReleaseBuild.dependsOn startmessage,setPreReleaseVersion
+    unSnapshotVersion.dependsOn printversion,printPreReleaseVersion,setTagVersion
+    commitNewVersion.dependsOn printversion,printPreReleaseVersion,printTagVersion
+    afterReleaseBuild.dependsOn printversion,printPreReleaseVersion,printTagVersion
 }
