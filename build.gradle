@@ -30,9 +30,10 @@ allprojects {
     }
 
     task(printversion) << {
-        println project.version
+        println "Project version is " + project.version
     }
 
     beforeReleaseBuild.dependsOn startmessage
     afterReleaseBuild.dependsOn printversion
+    updateVersion.dependsOn printversion
 }
