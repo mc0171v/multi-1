@@ -54,7 +54,7 @@ allprojects {
         println "Project version is " + project.version
     }
 
-    checkUpdateNeeded.dependsOn printversion,setPreReleaseVersion,printPreReleaseVersion
+    checkUpdateNeeded.dependsOn printversion,setPreReleaseVersion
     unSnapshotVersion.dependsOn printversion,printPreReleaseVersion,setTagVersion
     beforeReleaseBuild.dependsOn startmessage
     commitNewVersion.dependsOn printversion,printPreReleaseVersion,printTagVersion
