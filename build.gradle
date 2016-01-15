@@ -1,0 +1,37 @@
+//plugins {
+ // id 'net.researchgate.release' version '2.3.4'
+//}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'net.researchgate:gradle-release:2.3.4'
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'net.researchgate.release'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    release {
+        tagTemplate = '$name-$version'
+    }
+
+    task(startmessage) << {
+        println 'starting build'
+    }
+
+    task(printversion) << {
+        println project.version
+    }
+
+    beforeReleaseBuild.dependsOn startmessage
+    afterReleaseBuild.dependsOn printversion
+}
