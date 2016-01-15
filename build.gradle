@@ -48,8 +48,8 @@ allprojects {
         println "Project version is " + project.version
     }
 
-    beforeReleaseBuild.dependsOn setPreReleaseVersion startmessage
-    unSnapshotVersion.dependsOn setTagVersion printversion
+    beforeReleaseBuild.dependsOn [setPreReleaseVersion, startmessage]
+    unSnapshotVersion.dependsOn [setTagVersion, printversion]
     commitNewVersion.dependsOn printversion
     afterReleaseBuild.dependsOn printversion
 }
