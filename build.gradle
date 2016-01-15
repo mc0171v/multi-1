@@ -11,14 +11,15 @@ buildscript {
     }
 }
 
+ext {
+  preReleaseVersion = "0.0.0"
+  tagVersion = "0.0.0"
+}
+
 allprojects {
     apply plugin: 'java'
     apply plugin: 'net.researchgate.release'
 
-    ext {
-      preReleaseVersion = "0.0.0"
-      tagVersion = "0.0.0"
-    }
 
     repositories {
         mavenCentral()
@@ -49,9 +50,7 @@ allprojects {
     }
 
     beforeReleaseBuild.dependsOn setPreReleaseVersion,startmessage
-    //beforeReleaseBuild.dependsOn startmessage
-    unSnapshotVersion.dependsOn setTagVersion
-    unSnapshotVersion.dependsOn printversions
+    unSnapshotVersion.dependsOn setTagVersion,printversions
     commitNewVersion.dependsOn printversions
     afterReleaseBuild.dependsOn printversions
 }
