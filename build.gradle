@@ -15,9 +15,9 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'net.researchgate.release'
 
-    ext {
-      preReleaseVersion = "0.0.0"
-      tagVersion = "0.0.0"
+   {
+      def preReleaseVersion = "0.0.0"
+      def tagVersion = "0.0.0"
     }
 
     repositories {
