@@ -35,5 +35,5 @@ allprojects {
 
     beforeReleaseBuild.dependsOn startmessage
     afterReleaseBuild.dependsOn printversion
-    updateVersion.dependsOn printversion
+    commitNewVersion.dependsOn printversion
 }
