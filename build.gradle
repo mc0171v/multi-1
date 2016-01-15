@@ -11,15 +11,14 @@ buildscript {
     }
 }
 
-ext {
-  preReleaseVersion = "0.0.0"
-  tagVersion = "0.0.0"
-}
-
 allprojects {
     apply plugin: 'java'
     apply plugin: 'net.researchgate.release'
 
+    ext {
+      preReleaseVersion = "0.0.0"
+      tagVersion = "0.0.0"
+    }
 
     repositories {
         mavenCentral()
