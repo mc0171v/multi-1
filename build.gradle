@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-snapshotVersion = '0.0.0'
+snapshotVersion = "0.0.0"
 
 task(updateSubs) << {
   FileTree tree = fileTree(project.projectDir) {
@@ -48,11 +48,11 @@ allprojects {
     }
     
     task(printSnapshotVersion) << {
-        println "Project snapshot version is " + snapshotVersion
+        println "Project snapshot version is $snapshotVersion"
     }
 
     task(setSnapshotVersion) << {
-        snapshotVersion = project.version
+        $snapshotVersion = project.version
     }
 
     checkUpdateNeeded.dependsOn printVersion,setSnapshotVersion
