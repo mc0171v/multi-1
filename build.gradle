@@ -10,7 +10,7 @@ buildscript {
     }
 }
 
-proect.ext.snapshotVersion = "0.0.0"
+project.ext.snapshotVersion = "0.0.0"
 
 task(updateSubs) << {
   FileTree tree = fileTree(project.projectDir) {
