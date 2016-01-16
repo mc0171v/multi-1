@@ -7,6 +7,8 @@ buildscript {
     }
 }
 
+def snapshotVersion = '0.0.0'
+
 task(updateSubs) << {
   FileTree tree = fileTree(project.projectDir) {
     exclude(['build.gradle'])
@@ -44,10 +46,18 @@ allprojects {
     task(printversion) << {
         println "Project version is " + project.version
     }
+    
+    task(printSnapshotVersion) << {
+        println "Project snapshot version is " + snapshotVersion
+    }
+
+    task(setSnapshotVersion) << {
+        snapshotVersion = project.version
+    }
 
     checkUpdateNeeded.dependsOn printversion
-    unSnapshotVersion.dependsOn printversion
-    beforeReleaseBuild.dependsOn startmessage
+    unSnapshotVersion.dependsOn printversion,printSnapshotVersion
+    beforeReleaseBuild.dependsOn startmessage,printSnapshotVersion
     commitNewVersion.dependsOn printversion
     afterReleaseBuild.dependsOn printversion
 }
