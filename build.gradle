@@ -7,9 +7,8 @@ buildscript {
     }
 }
 
-project.ext.snapshotVersion = "0.0.0"
-
 task(updateSubs) << {
+  println "Updating sub projects"
   FileTree tree = fileTree(project.projectDir) {
     exclude(['build.gradle'])
     include(['properties.gradle','Dockerfile'])
@@ -17,20 +16,12 @@ task(updateSubs) << {
   tree.each {File file ->
     println "Tree file name: " + file
     if (file.text.contains('SNAPSHOT')) {
-      println "Tree file contains: SLAPSHOT"
-      def updated = file.text.replaceAll('SNAPSHOT','SLAPSHOT')
+      println "Tree file contains: SNAPSHOT"
+      def updated = file.text.replaceAll("$version","$project.version")
       file.write(updated)
-      println "Tree file updated: SLAPSHOT"
+      println "Tree file updated: $version to $project.version"
     }
   }
-}
-
-task(printSnapshotVersion) << {
-  println "Project snapshot version is " + rootProject.snapshotVersion
-}
-
-task(setSnapshotVersion) << {
-  rootProject.snapshotVersion = project.version
 }
 
 allprojects {
@@ -55,9 +46,9 @@ allprojects {
         println "Project version is " + project.version
     }
     
-    checkUpdateNeeded.dependsOn printVersion,setSnapshotVersion
-    unSnapshotVersion.dependsOn printVersion,printSnapshotVersion
-    beforeReleaseBuild.dependsOn startMessage,printVersion,printSnapshotVersion
-    commitNewVersion.dependsOn printVersion
+    checkUpdateNeeded.dependsOn printVersion
+    unSnapshotVersion.dependsOn printVersion
+    beforeReleaseBuild.dependsOn startMessage,updateSubs
     afterReleaseBuild.dependsOn printVersion
+    commitNewVersion.dependsOn printVersion,updateSubs
 }
