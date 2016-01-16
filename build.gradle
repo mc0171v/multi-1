@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-def snapshotVersion = '0.0.0'
+snapshotVersion = '0.0.0'
 
 task(updateSubs) << {
   FileTree tree = fileTree(project.projectDir) {
