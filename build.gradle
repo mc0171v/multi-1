@@ -55,7 +55,7 @@ allprojects {
         snapshotVersion = project.version
     }
 
-    checkUpdateNeeded.dependsOn printversion
+    checkUpdateNeeded.dependsOn printversion,setSnapshotVersion
     unSnapshotVersion.dependsOn printversion,printSnapshotVersion
     beforeReleaseBuild.dependsOn startmessage,printSnapshotVersion
     commitNewVersion.dependsOn printversion
