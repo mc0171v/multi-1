@@ -1,7 +1,7 @@
 buildscript {
-    ext {
-      snapshotVersion = "0.0.0"
-    }
+    //ext {
+    //  snapshotVersion = "0.0.0"
+    //}
     repositories {
         jcenter()
     }
@@ -9,6 +9,8 @@ buildscript {
         classpath 'net.researchgate:gradle-release:2.3.4'
     }
 }
+
+proect.ext.snapshotVersion = "0.0.0"
 
 task(updateSubs) << {
   FileTree tree = fileTree(project.projectDir) {
@@ -49,11 +51,11 @@ allprojects {
     }
     
     task(printSnapshotVersion) << {
-        println "Project snapshot version is $snapshotVersion"
+        println "Project snapshot version is " + rootProject.snapshotVersion
     }
 
     task(setSnapshotVersion) << {
-        snapshotVersion = project.version
+        rootProject.snapshotVersion = project.version
     }
 
     checkUpdateNeeded.dependsOn printVersion,setSnapshotVersion
