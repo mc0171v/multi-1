@@ -39,11 +39,11 @@ allprojects {
         failOnSnapshotDependencies = false
     }
 
-    task(startmessage) << {
+    task(startMessage) << {
         println 'starting build'
     }
 
-    task(printversion) << {
+    task(printVersion) << {
         println "Project version is " + project.version
     }
     
@@ -55,9 +55,9 @@ allprojects {
         snapshotVersion = project.version
     }
 
-    checkUpdateNeeded.dependsOn printversion,setSnapshotVersion
-    unSnapshotVersion.dependsOn printversion,printSnapshotVersion
-    beforeReleaseBuild.dependsOn startmessage,printSnapshotVersion
-    commitNewVersion.dependsOn printversion
-    afterReleaseBuild.dependsOn printversion
+    checkUpdateNeeded.dependsOn printVersion,setSnapshotVersion
+    unSnapshotVersion.dependsOn printVersion,printSnapshotVersion
+    beforeReleaseBuild.dependsOn startMessage,printVersion,printSnapshotVersion
+    commitNewVersion.dependsOn printVersion
+    afterReleaseBuild.dependsOn printVersion
 }
