@@ -1,4 +1,4 @@
-snapshotVersion = "0.0.0"
+project.ext.snapshotVersion = "0.0.0"
 
 buildscript {
     repositories {
@@ -48,11 +48,11 @@ allprojects {
     }
     
     task(printSnapshotVersion) << {
-        println "Project snapshot version is $snapshotVersion"
+        println "Project snapshot version is project.ext.snapshotVersion"
     }
 
     task(setSnapshotVersion) << {
-        $snapshotVersion = project.version
+        project.ext.snapshotVersion = project.version
     }
 
     checkUpdateNeeded.dependsOn printVersion,setSnapshotVersion
