@@ -8,7 +8,7 @@ buildscript {
 }
 
 task(updateSubs) << {
-  println "Updating sub projects"
+  println "Updating sub projects " + project.projectDir
   FileTree tree = fileTree(project.projectDir) {
     exclude(['build.gradle'])
     include(['properties.gradle','Dockerfile'])
@@ -16,7 +16,7 @@ task(updateSubs) << {
   tree.each {File file ->
     println "Tree file name: " + file
     if (file.text.contains('SNAPSHOT')) {
-      println "Tree file contains: SNAPSHOT"
+      println "Tree file contains: SNAPSHOT replacing $version with $project.version"
       def updated = file.text.replaceAll("$version","$project.version")
       file.write(updated)
       println "Tree file updated: $version to $project.version"
