@@ -1,3 +1,5 @@
+snapshotVersion = "0.0.0"
+
 buildscript {
     repositories {
         jcenter()
@@ -6,8 +8,6 @@ buildscript {
         classpath 'net.researchgate:gradle-release:2.3.4'
     }
 }
-
-snapshotVersion = "0.0.0"
 
 task(updateSubs) << {
   FileTree tree = fileTree(project.projectDir) {
