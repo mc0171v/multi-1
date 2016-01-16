@@ -1,5 +1,7 @@
 buildscript {
-    snapshotVersion = "0.0.0"
+    ext {
+      snapshotVersion = "0.0.0"
+    }
     repositories {
         jcenter()
     }
