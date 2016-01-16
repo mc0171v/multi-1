@@ -1,10 +1,3 @@
-//plugins {
- // id 'net.researchgate.release' version '2.3.4'
-//}
-
-    def preReleaseVersion = "0.0.0"
-    def tagVersion = "0.0.0"
-
 buildscript {
     repositories {
         jcenter()
@@ -12,6 +5,22 @@ buildscript {
     dependencies {
         classpath 'net.researchgate:gradle-release:2.3.4'
     }
+}
+
+task(updateSubs) << {
+  FileTree tree = fileTree(project.projectDir) {
+    exclude(['build.gradle'])
+    include(['properties.gradle','Dockerfile'])
+  }
+  tree.each {File file ->
+    println "Tree file name: " + file
+    if (file.text.contains('SNAPSHOT')) {
+      println "Tree file contains: SLAPSHOT"
+      def updated = file.text.replaceAll('SNAPSHOT','SLAPSHOT')
+      file.write(updated)
+      println "Tree file updated: SLAPSHOT"
+    }
+  }
 }
 
 allprojects {
@@ -32,29 +41,13 @@ allprojects {
         println 'starting build'
     }
 
-    task(setTagVersion) << {
-      tagVersion = project.version
-    }
-
-    task(setPreReleaseVersion) << {
-      preReleaseVersion = project.version
-    }
-
-    task(printPreReleaseVersion) << {
-        println "Project pre release version is " + preReleaseVersion
-    }
-
-    task(printTagVersion) << {
-        println "Project tag version is " + tagVersion
-    }
-
     task(printversion) << {
         println "Project version is " + project.version
     }
 
-    checkUpdateNeeded.dependsOn printversion,setPreReleaseVersion
-    unSnapshotVersion.dependsOn printversion,printPreReleaseVersion,setTagVersion
+    checkUpdateNeeded.dependsOn printversion
+    unSnapshotVersion.dependsOn printversion
     beforeReleaseBuild.dependsOn startmessage
-    commitNewVersion.dependsOn printversion,printPreReleaseVersion,printTagVersion
-    afterReleaseBuild.dependsOn printversion,printPreReleaseVersion,printTagVersion
+    commitNewVersion.dependsOn printversion
+    afterReleaseBuild.dependsOn printversion
 }
