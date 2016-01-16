@@ -1,7 +1,4 @@
 buildscript {
-    //ext {
-    //  snapshotVersion = "0.0.0"
-    //}
     repositories {
         jcenter()
     }
@@ -28,6 +25,14 @@ task(updateSubs) << {
   }
 }
 
+task(printSnapshotVersion) << {
+  println "Project snapshot version is " + rootProject.snapshotVersion
+}
+
+task(setSnapshotVersion) << {
+  rootProject.snapshotVersion = project.version
+}
+
 allprojects {
     apply plugin: 'java'
     apply plugin: 'net.researchgate.release'
@@ -50,14 +55,6 @@ allprojects {
         println "Project version is " + project.version
     }
     
-    task(printSnapshotVersion) << {
-        println "Project snapshot version is " + rootProject.snapshotVersion
-    }
-
-    task(setSnapshotVersion) << {
-        rootProject.snapshotVersion = project.version
-    }
-
     checkUpdateNeeded.dependsOn printVersion,setSnapshotVersion
     unSnapshotVersion.dependsOn printVersion,printSnapshotVersion
     beforeReleaseBuild.dependsOn startMessage,printVersion,printSnapshotVersion
