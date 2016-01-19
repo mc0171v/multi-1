@@ -12,7 +12,7 @@ task(updateSubs) << {
   if (project.version.contains('SNAPSHOT')) {
     versionToBeUpdated=release.releaseVersion
   } else {
-    versionToBeUpdated=release.prereleaseVersion
+    versionToBeUpdated=prereleaseVersion
   }
   println "Updating sub projects $project.projectDir"
   FileTree tree = fileTree(project.projectDir).exclude(['build.gradle'])
