@@ -7,6 +7,8 @@ buildscript {
     }
 }
 
+apply plugin: 'net.researchgate.release'
+
 task(updateSubs) << {
   def versionToBeUpdated
   if (project.version.contains('SNAPSHOT')) {
@@ -14,23 +16,32 @@ task(updateSubs) << {
   } else {
     versionToBeUpdated=prereleaseVersion
   }
-  println "Updating sub projects $project.projectDir"
-  FileTree tree = fileTree(project.projectDir).exclude(['build.gradle'])
-  //.includes(['properties.gradle','Dockerfile'])
+  FileTree tree = fileTree(project.projectDir)
   tree.each {File file ->
     println "Tree file name: file"
     if (file.text.contains(versionToBeUpdated)) {
-      println "Tree file contains: $versionToBeUpdated replacing with $project.version"
       def updated = file.text.replaceAll(versionToBeUpdated,project.version)
       file.write(updated)
-      println "Tree file updated: $versionToBeUpdated to $project.version"
     }
   }
 }
 
+task(startMessage) << {
+  println 'starting build'
+}
+
+task(printVersion) << {
+  println "Project version is " + project.version
+}
+    
+checkUpdateNeeded.dependsOn printVersion
+unSnapshotVersion.dependsOn printVersion
+beforeReleaseBuild.dependsOn startMessage,updateSubs
+afterReleaseBuild.dependsOn printVersion
+commitNewVersion.dependsOn printVersion,updateSubs
+
 allprojects {
     apply plugin: 'java'
-    apply plugin: 'net.researchgate.release'
 
     repositories {
         mavenCentral()
@@ -42,17 +53,17 @@ allprojects {
         failOnSnapshotDependencies = false
     }
 
-    task(startMessage) << {
-        println 'starting build'
-    }
+//  task(startMessage) << {
+//      println 'starting build'
+//  }
 
-    task(printVersion) << {
-        println "Project version is " + project.version
-    }
-    
-    checkUpdateNeeded.dependsOn printVersion
-    unSnapshotVersion.dependsOn printVersion
-    beforeReleaseBuild.dependsOn startMessage,updateSubs
-    afterReleaseBuild.dependsOn printVersion,rootProject.build
-    commitNewVersion.dependsOn printVersion,updateSubs
+//  task(printVersion) << {
+//      println "Project version is " + project.version
+//  }
+//  
+//  checkUpdateNeeded.dependsOn printVersion
+//  unSnapshotVersion.dependsOn printVersion
+//  beforeReleaseBuild.dependsOn startMessage,updateSubs
+//  afterReleaseBuild.dependsOn printVersion
+//  commitNewVersion.dependsOn printVersion,updateSubs
 }
