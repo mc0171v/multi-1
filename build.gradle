@@ -9,7 +9,7 @@ buildscript {
 
 task(updateSubs) << {
   def versionToBeUpdated
-  if (project.version.contains('SNAPSHOT') {
+  if (project.version.contains('SNAPSHOT')) {
     versionToBeUpdated=release.releaseVersion
   } else {
     versionToBeUpdated=release.prereleaseVersion
