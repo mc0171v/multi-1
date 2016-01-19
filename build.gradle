@@ -8,17 +8,22 @@ buildscript {
 }
 
 task(updateSubs) << {
-  //def version = "0.0.18-SNAPSHOT"
-  println "Updating sub projects " + project.projectDir
+  def versionToBeUpdated
+  if (project.version.contains('SNAPSHOT') {
+    versionToBeUpdated=release.releaseVersion
+  } else {
+    versionToBeUpdated=release.prereleaseVersion
+  }
+  println "Updating sub projects $project.projectDir"
   FileTree tree = fileTree(project.projectDir).exclude(['build.gradle'])
   //.includes(['properties.gradle','Dockerfile'])
   tree.each {File file ->
-    println "Tree file name: " + file
-    if (file.text.contains('SNAPSHOT')) {
+    println "Tree file name: file"
+    if (file.text.contains(versionToBeUpdated)) {
       println "Tree file contains: SNAPSHOT replacing $version with $project.version"
-      def updated = file.text.replaceAll("$version","$project.version")
+      def updated = file.text.replaceAll(versionToBeUpdated,project.version)
       file.write(updated)
-      println "Tree file updated: $version to $project.version"
+      println "Tree file updated: $versionToBeUpdated to $project.version"
     }
   }
 }
