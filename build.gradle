@@ -20,7 +20,7 @@ task(updateSubs) << {
   tree.each {File file ->
     println "Tree file name: file"
     if (file.text.contains(versionToBeUpdated)) {
-      println "Tree file contains: SNAPSHOT replacing $version with $project.version"
+      println "Tree file contains: $versionToBeUpdated replacing with $project.version"
       def updated = file.text.replaceAll(versionToBeUpdated,project.version)
       file.write(updated)
       println "Tree file updated: $versionToBeUpdated to $project.version"
@@ -53,6 +53,6 @@ allprojects {
     checkUpdateNeeded.dependsOn printVersion
     unSnapshotVersion.dependsOn printVersion
     beforeReleaseBuild.dependsOn startMessage,updateSubs
-    afterReleaseBuild.dependsOn printVersion
+    afterReleaseBuild.dependsOn printVersion,build
     commitNewVersion.dependsOn printVersion,updateSubs
 }
