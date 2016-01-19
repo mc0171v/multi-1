@@ -26,6 +26,11 @@ task(updateSubs) << {
   }
 }
 
+    release {
+        tagTemplate = '$name-$version'
+        failOnSnapshotDependencies = false
+    }
+
 task(startMessage) << {
   println 'starting build'
 }
@@ -46,11 +51,6 @@ allprojects {
     repositories {
         mavenCentral()
         jcenter()
-    }
-
-    release {
-        tagTemplate = '$name-$version'
-        failOnSnapshotDependencies = false
     }
 
 //  task(startMessage) << {
