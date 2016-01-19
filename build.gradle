@@ -53,6 +53,6 @@ allprojects {
     checkUpdateNeeded.dependsOn printVersion
     unSnapshotVersion.dependsOn printVersion
     beforeReleaseBuild.dependsOn startMessage,updateSubs
-    afterReleaseBuild.dependsOn printVersion,build
+    afterReleaseBuild.dependsOn printVersion,rootProject.build
     commitNewVersion.dependsOn printVersion,updateSubs
 }
